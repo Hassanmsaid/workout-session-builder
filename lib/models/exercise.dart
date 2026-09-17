@@ -34,7 +34,10 @@ class Exercise {
       name: json['name'],
       category: json['category'],
       targetSets: json['targetSets'],
-      targetType: TargetType.values[json['targetType']],
+      targetType: TargetType.values.firstWhere(
+        (e) => e.name == json['targetType'],
+        orElse: () => TargetType.reps,
+      ),
       isCompleted: json['isCompleted'],
     );
   }
