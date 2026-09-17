@@ -1,0 +1,56 @@
+[
+  {
+    "id": "ex-1",
+    "name": "Push-ups",
+    "category": "Push",
+    "targetSets": 3,
+    "targetType": "reps",
+    "targetValue": 15,
+    "isCompleted": false
+  },
+  {
+    "id": "ex-2",
+    "name": "Pull-ups",
+    "category": "Pull",
+    "targetSets": 3,
+    "targetType": "reps",
+    "targetValue": 8,
+    "isCompleted": false
+  },
+  {
+    "id": "ex-3",
+    "name": "Bodyweight Squats",
+    "category": "Legs",
+    "targetSets": 4,
+    "targetType": "reps",
+    "targetValue": 20,
+    "isCompleted": false
+  },
+  {
+    "id": "ex-4",
+    "name": "Plank",
+    "category": "Core",
+    "targetSets": 3,
+    "targetType": "time",
+    "targetValue": 45,
+    "isCompleted": false
+  },
+  {
+    "id": "ex-5",
+    "name": "Jumping Jacks",
+    "category": "Cardio",
+    "targetSets": 3,
+    "targetType": "time",
+    "targetValue": 60,
+    "isCompleted": false
+  },
+  {
+    "id": "ex-6",
+    "name": "Hip Flexor Stretch",
+    "category": "Mobility",
+    "targetSets": 2,
+    "targetType": "time",
+    "targetValue": 30,
+    "isCompleted": false
+  }
+]
