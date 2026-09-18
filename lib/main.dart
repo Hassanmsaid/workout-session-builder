@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:traininpink_workout_task/providers/workout_provider.dart';
+import 'package:traininpink_workout_task/services/storage_service.dart';
+import 'package:traininpink_workout_task/ui/screens/workout_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,11 +13,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Workout',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Color(0xFF656756))),
-      home: const MyHomePage(title: 'Workout'),
-      debugShowCheckedModeBanner: false,
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => WorkoutProvider(storageService: StorageService()),
+      child: MaterialApp(
+        title: 'Workout',
+        theme: ThemeData(colorScheme: .fromSeed(seedColor: Color(0xFF656756))),
+        home: const WorkoutScreen(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }

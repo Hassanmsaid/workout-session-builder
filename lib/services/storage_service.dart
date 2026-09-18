@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:traininpink_workout_task/models/exercise.dart';
 
 /// Global instance for shared preferences
-final sharedPrefs = SharedPreferencesService();
+final sharedPrefs = StorageService();
 
-class SharedPreferencesService {
+class StorageService {
   static SharedPreferences? _sharedPrefs;
 
   Future<SharedPreferences> init() async => _sharedPrefs ??= await SharedPreferences.getInstance();
@@ -28,5 +29,11 @@ class SharedPreferencesService {
     List<dynamic> jsonList = jsonString != null ? jsonDecode(jsonString) : [];
     List<Exercise> exercises = jsonList.map((item) => Exercise.fromJson(item)).toList();
     return exercises;
+  }
+
+  Future<List<Exercise>> getOriginalExercises() async {
+    final raw = await rootBundle.loadString('assets/exercises.json');
+    final decoded = jsonDecode(raw) as List;
+    return decoded.map((entry) => Exercise.fromJson(entry as Map<String, dynamic>)).toList();
   }
 }
