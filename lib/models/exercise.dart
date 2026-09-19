@@ -5,6 +5,7 @@ class Exercise {
   String name;
   String category;
   int targetSets;
+  int targetValue;
   TargetType targetType;
   bool isCompleted;
 
@@ -14,8 +15,14 @@ class Exercise {
     required this.category,
     required this.targetSets,
     required this.targetType,
+    required this.targetValue,
     this.isCompleted = false,
   });
+
+  String get targetLabel {
+    final unit = targetType == TargetType.time ? 's' : ' reps';
+    return '$targetSets x $targetValue$unit';
+  }
 
   Map<String, dynamic> toJson() {
     return {
@@ -34,6 +41,7 @@ class Exercise {
       name: json['name'],
       category: json['category'],
       targetSets: json['targetSets'],
+      targetValue: json['targetValue'],
       targetType: TargetType.values.firstWhere(
         (e) => e.name == json['targetType'],
         orElse: () => TargetType.reps,

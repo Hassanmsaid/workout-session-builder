@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:traininpink_workout_task/providers/workout_provider.dart';
+import 'package:traininpink_workout_task/ui/widgets/exercise_item.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});
@@ -36,7 +37,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           return ReorderableListView.builder(
             itemBuilder: (context, i) {
               final exercise = provider.exercises[i];
-              return ListTile(key: ValueKey(exercise.id), title: Text(exercise.name));
+              return ExerciseItem(
+                key: ValueKey(exercise.id),
+                exercise: exercise,
+                index: i,
+                onToggleCompleted: () {},
+                onTap: () {},
+                onDelete: () {},
+              );
             },
             itemCount: provider.exercises.length,
             onReorderItem: (oldIndex, newIndex) {
