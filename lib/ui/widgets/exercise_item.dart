@@ -33,10 +33,7 @@ class ExerciseItem extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(
-              icon: const Icon(Icons.delete_outline),
-              onPressed: onDelete,
-            ),
+            IconButton(icon: const Icon(Icons.delete_outline), onPressed: onDelete),
             ReorderableDragStartListener(
               index: index,
               child: const Padding(

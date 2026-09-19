@@ -4,7 +4,9 @@ import 'package:traininpink_workout_task/providers/workout_provider.dart';
 import 'package:traininpink_workout_task/services/storage_service.dart';
 import 'package:traininpink_workout_task/ui/screens/workout_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await sharedPrefs.init();
   runApp(const MyApp());
 }
 

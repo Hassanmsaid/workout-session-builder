@@ -32,7 +32,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (provider.exercises.isEmpty) {
-            return Center(child: Text('No exercises found'));
+            return const Center(child: Text('No exercises found'));
           }
           return ReorderableListView.builder(
             itemBuilder: (context, i) {
@@ -43,13 +43,34 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 index: i,
                 onToggleCompleted: () {},
                 onTap: () {},
-                onDelete: () {},
+                onDelete: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Delete Exercise'),
+                        content: const Text('Are you sure you want to delete this exercise?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              provider.deleteExercise(exercise.id);
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Delete'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               );
             },
             itemCount: provider.exercises.length,
-            onReorderItem: (oldIndex, newIndex) {
-              provider.reorderExercises(oldIndex, newIndex);
-            },
+            onReorderItem: (oldIndex, newIndex) => provider.reorderExercises(oldIndex, newIndex),
           );
         },
       ),

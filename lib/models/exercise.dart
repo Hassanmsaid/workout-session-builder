@@ -32,6 +32,7 @@ class Exercise {
       'targetSets': targetSets,
       'targetType': targetType.name,
       'isCompleted': isCompleted,
+      'targetValue': targetValue,
     };
   }
 
