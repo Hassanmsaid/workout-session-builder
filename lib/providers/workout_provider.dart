@@ -24,7 +24,7 @@ class WorkoutProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void reorderExercises(int oldIndex, int newIndex) async {
+  Future<void> reorderExercises(int oldIndex, int newIndex) async {
     if (oldIndex < newIndex) newIndex -= 1;
     final Exercise exercise = exercises.removeAt(oldIndex);
     exercises.insert(newIndex, exercise);
@@ -32,8 +32,16 @@ class WorkoutProvider extends ChangeNotifier {
     await _saveWorkout();
   }
 
-  void deleteExercise(String id) async {
+  Future<void> deleteExercise(String id) async {
     exercises.removeWhere((exercise) => exercise.id == id);
+    notifyListeners();
+    await _saveWorkout();
+  }
+
+  Future<void> toggleExerciseCompletion(String id) async {
+    exercises.firstWhere((exercise) => exercise.id == id).isCompleted = !exercises
+        .firstWhere((exercise) => exercise.id == id)
+        .isCompleted;
     notifyListeners();
     await _saveWorkout();
   }

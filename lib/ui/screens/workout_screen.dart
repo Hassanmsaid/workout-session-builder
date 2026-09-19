@@ -41,7 +41,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 key: ValueKey(exercise.id),
                 exercise: exercise,
                 index: i,
-                onToggleCompleted: () {},
+                onToggleCompleted: () => provider.toggleExerciseCompletion(exercise.id),
                 onTap: () {},
                 onDelete: () {
                   showDialog(
