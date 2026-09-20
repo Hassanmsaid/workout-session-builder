@@ -113,6 +113,7 @@ void main() {
           "targetSets": 3,
           "targetType": "reps",
           "isCompleted": false,
+          'targetValue': 30,
         },
       ];
 
