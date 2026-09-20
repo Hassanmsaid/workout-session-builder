@@ -4,6 +4,7 @@ import 'package:traininpink_workout_task/models/exercise.dart';
 import 'package:traininpink_workout_task/providers/workout_provider.dart';
 import 'package:traininpink_workout_task/ui/screens/exercise_form_screen.dart';
 import 'package:traininpink_workout_task/ui/widgets/exercise_item.dart';
+import 'package:traininpink_workout_task/ui/widgets/progress_summary.dart';
 
 class WorkoutScreen extends StatefulWidget {
   const WorkoutScreen({super.key});
@@ -55,43 +56,55 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           if (provider.exercises.isEmpty) {
             return const Center(child: Text('No exercises found'));
           }
-          return ReorderableListView.builder(
-            itemBuilder: (context, i) {
-              final exercise = provider.exercises[i];
-              return ExerciseItem(
-                key: ValueKey(exercise.id),
-                exercise: exercise,
-                index: i,
-                onToggleCompleted: () => provider.toggleExerciseCompletion(exercise.id),
-                onTap: () async => await _openExerciseForm(current: exercise),
-                onDelete: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text('Delete Exercise'),
-                        content: const Text('Are you sure you want to delete this exercise?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: const Text('Cancel'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              provider.deleteExercise(exercise.id);
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text('Delete'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              );
-            },
-            itemCount: provider.exercises.length,
-            onReorderItem: (oldIndex, newIndex) => provider.reorderExercises(oldIndex, newIndex),
+          return Column(
+            children: [
+              ProgressSummary(
+                completed: provider.completedCount,
+                total: provider.totalCount,
+                progress: provider.progress,
+              ),
+              Expanded(
+                child: ReorderableListView.builder(
+                  itemBuilder: (context, i) {
+                    final exercise = provider.exercises[i];
+                    return ExerciseItem(
+                      key: ValueKey(exercise.id),
+                      exercise: exercise,
+                      index: i,
+                      onToggleCompleted: () => provider.toggleExerciseCompletion(exercise.id),
+                      onTap: () async => await _openExerciseForm(current: exercise),
+                      onDelete: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Delete Exercise'),
+                              content: const Text('Are you sure you want to delete this exercise?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  child: const Text('Cancel'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    provider.deleteExercise(exercise.id);
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Delete'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                  itemCount: provider.exercises.length,
+                  onReorderItem: (oldIndex, newIndex) =>
+                      provider.reorderExercises(oldIndex, newIndex),
+                ),
+              ),
+            ],
           );
         },
       ),

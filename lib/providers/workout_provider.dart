@@ -10,6 +10,12 @@ class WorkoutProvider extends ChangeNotifier {
   List<Exercise> exercises = [];
   bool isLoading = false;
 
+  int get totalCount => exercises.length;
+
+  int get completedCount => exercises.where((e) => e.isCompleted).length;
+
+  double get progress => totalCount == 0 ? 0 : completedCount / totalCount;
+
   Future<void> _saveWorkout() async => await storageService.setExercises(exercises);
 
   Future<void> loadWorkout() async {
