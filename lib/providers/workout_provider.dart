@@ -25,7 +25,6 @@ class WorkoutProvider extends ChangeNotifier {
   }
 
   Future<void> reorderExercises(int oldIndex, int newIndex) async {
-    if (oldIndex < newIndex) newIndex -= 1;
     final Exercise exercise = exercises.removeAt(oldIndex);
     exercises.insert(newIndex, exercise);
     notifyListeners();
@@ -39,10 +38,26 @@ class WorkoutProvider extends ChangeNotifier {
   }
 
   Future<void> toggleExerciseCompletion(String id) async {
-    exercises.firstWhere((exercise) => exercise.id == id).isCompleted = !exercises
-        .firstWhere((exercise) => exercise.id == id)
-        .isCompleted;
+    final index = exercises.indexWhere((exercise) => exercise.id == id);
+    if (index != -1) {
+      exercises[index].isCompleted = !exercises[index].isCompleted;
+      notifyListeners();
+      await _saveWorkout();
+    }
+  }
+
+  Future<void> addNewExercise(Exercise exercise) async {
+    exercises.add(exercise);
     notifyListeners();
     await _saveWorkout();
+  }
+
+  Future<void> updateExercise(Exercise exercise) async {
+    final int index = exercises.indexWhere((e) => e.id == exercise.id);
+    if (index != -1) {
+      exercises[index] = exercise;
+      notifyListeners();
+      await _saveWorkout();
+    }
   }
 }

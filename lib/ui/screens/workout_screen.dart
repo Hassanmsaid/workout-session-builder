@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:traininpink_workout_task/models/exercise.dart';
 import 'package:traininpink_workout_task/providers/workout_provider.dart';
+import 'package:traininpink_workout_task/ui/screens/exercise_form_screen.dart';
 import 'package:traininpink_workout_task/ui/widgets/exercise_item.dart';
 
 class WorkoutScreen extends StatefulWidget {
@@ -20,12 +22,31 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     });
   }
 
+  Future<void> _openExerciseForm({Exercise? current}) async {
+    final provider = context.read<WorkoutProvider>();
+    final Exercise? result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ExerciseFormScreen(exercise: current)),
+    );
+    if (result != null) {
+      if (current == null) {
+        provider.addNewExercise(result);
+      } else {
+        provider.updateExercise(result);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = context.watch<WorkoutProvider>();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Workout Screen')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async => await _openExerciseForm(),
+        child: Icon(Icons.add),
+      ),
       body: Builder(
         builder: (context) {
           if (provider.isLoading) {
@@ -42,7 +63,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 exercise: exercise,
                 index: i,
                 onToggleCompleted: () => provider.toggleExerciseCompletion(exercise.id),
-                onTap: () {},
+                onTap: () async => await _openExerciseForm(current: exercise),
                 onDelete: () {
                   showDialog(
                     context: context,
