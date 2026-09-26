@@ -117,14 +117,6 @@ void main() {
         },
       ];
 
-      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMessageHandler(
-        'flutter/assets',
-        (message) async {
-          final Uint8List encoded = utf8.encoder.convert(jsonEncode(mockJson));
-          return encoded.buffer.asByteData();
-        },
-      );
-
       // The key for rootBundle.loadString is 'assets/exercises.json'
       // however, the channel 'flutter/assets' receives the asset key.
       // We need to handle the specific asset key if multiple assets are involved,
